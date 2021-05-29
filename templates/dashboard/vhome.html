@@ -1,0 +1,137 @@
+{% extends 'base.html' %}
+
+{% block content %}
+
+<nav>
+  <div class="nav-wrapper grey lighten-1">
+    <a href="{% url 'vhome' %}" class="brand-logo">{{ name }}</a>
+    <a href="#" data-target="mobile-demo" class="sidenav-trigger"><i class="material-icons">menu</i></a>
+    <ul class="right hide-on-med-and-down">
+      
+      <li><a href="#section1">Requests</a></li>
+      <li><a href="#section2">Accepted Requested</a></li>
+      <li><a href="{% url 'updateprofile' pk=request.user.pk %}">Update Profile</a></li>
+      <li><a href="{% url 'logout' %}">Logout</a></li>
+    </ul>
+  </div>
+</nav>
+
+<ul class="sidenav" id="mobile-demo">
+  <li><a href="#">Profile</a></li>
+  <li><a href="{% url 'updateprofile' pk=request.user.pk %}">Update Profile</a></li>
+  <li><a href="{% url 'logout' %}">Logout</a></li>
+</ul>
+
+
+<div class="box grey lighten-5 " style="padding: 2%; height: 500px;" id="section1" >
+  <div class="container row" >
+    <div class="col s12 l4 center-align">
+      <h4> Requests </h4>
+    </div>
+    <div class="col s12 l8">
+      <ul class="collapsible popout">
+        {% if requestLen == 0 %}
+        <li>
+          <div class="collapsible-header">
+            <ul>
+              <li><h6>No requests available </h6></li>
+            </ul>
+          </div>
+        </li>
+
+        {% endif %}
+
+        {% for item in requestList %}
+        <li>
+          <div class="collapsible-header">
+            <ul>
+              <li><h5>{{ item.name }}</h5></li>
+              <li><strong>Drop Location</strong>  : {{ item.address }}</li>
+              <li><strong>Pincode</strong>  : {{ item.pincode }} </li>
+            </ul>
+          </div>
+          
+          <div class="collapsible-body">
+            <ul>
+              <div style="padding: 1%;">
+                <a href="{% url 'acceptRequest' pk=item.id%}" class="waves-effect waves-light btn btn-small blue lighten-2">Accept</a>
+              </div>
+              {% for key,value in item.itemList.items %}
+              <li><h6>{{ key }}  {{value}}</h6>  </li>
+              {% endfor %}
+            </ul>
+          </div>
+        </li>
+        {% endfor %}
+      </ul>
+      
+    </div>
+    
+  </div>
+  
+</div>
+
+<!-- Accepted Requests Section -->
+<div class="box grey lighten-2" id="section2" style="padding: 2%; height: 500px;">
+  <div class="container row" >
+    <div class="col s12 l4 center-align">
+      <h4> Accepted Requests</h4>
+    </div>
+    <div class="col s12 l8">
+      <ul class="collapsible popout">
+        {% if acceptedLen == 0 %}
+        <li>
+          <div class="collapsible-header">
+            <ul>
+              <li><h6>No requests accepted </h6></li>
+            </ul>
+          </div>
+        </li>
+
+        {% endif %}
+
+        {% for item in acceptedList %}
+        <li>
+          <div class="collapsible-header">
+            <ul>
+              <li><h5>{{ item.name }}</h5></li>
+              <li><strong>Drop Location</strong>  : {{ item.address }}</li>
+              <li><strong>Pincode</strong>  : {{ item.pincode }} </li>
+            </ul>
+          </div>
+          
+          <div class="collapsible-body">
+            <ul>
+              {% for key,value in item.itemList.items %}
+              <li><h6>{{ key }}  {{value}}</h6>  </li>
+              {% endfor %}
+            </ul>
+          </div>
+        </li>
+        {% endfor %}
+      </ul>
+      
+    </div>
+    
+  </div>
+  
+</div>
+
+{% endblock %}
+
+
+{% block script %}
+<script type="text/javascript">
+  document.addEventListener('DOMContentLoaded', function() {
+    var elems = document.querySelectorAll('.collapsible');
+    var instances = M.Collapsible.init(elems);
+  });
+
+  document.addEventListener('DOMContentLoaded', function() {
+    var elems = document.querySelectorAll('.sidenav');
+    var instances = M.Sidenav.init(elems);
+  });
+
+</script>
+
+{% endblock %}

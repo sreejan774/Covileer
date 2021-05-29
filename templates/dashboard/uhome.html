@@ -1,0 +1,141 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<div class="navbar-fixed">
+  <nav>
+    <div class="nav-wrapper grey lighten-1">
+      <a href="{% url 'uhome' %}" class="brand-logo">{{name}}</a>
+      <a href="#" data-target="mobile-demo" class="sidenav-trigger"><i class="material-icons">menu</i></a>
+      <ul class="right hide-on-med-and-down">
+        
+        <li><a href="#section1">Accepted Request</a></li>
+        <li><a href="#section2">Pending Request</a></li>
+        <li><a href="{% url 'createRequest' pk=request.user.pk %}">Request</a></li>
+        <li><a href="{% url 'updateprofile' pk=request.user.pk %}">Update Profile</a></li>
+        <li><a href="{% url 'logout' %}">Logout</a></li>
+      </ul>
+    </div>
+  </nav>
+</div>
+  <ul class="sidenav" id="mobile-demo">
+    <li><a href="{% url 'createRequest' pk=request.user.pk %}">Request</a></li>
+    <li><a href="{% url 'updateprofile' pk=request.user.pk %}">Update Profile</a></li>
+    <li><a href="{% url 'logout' %}">Logout</a></li>
+  </ul>
+
+
+
+<div class="box grey lighten-5" style="padding: 2%; height: 500px;" id="section1">
+  <div class="container row" >
+    <div class="col s12 l4 center-align">
+      <h4> Pending Requests </h4>
+    </div>
+    <div class="col s12 l8">
+      <ul class="collapsible popout">
+        {% if pendingRequestLen == 0 %}
+        <li>
+          <div class="collapsible-header">
+            <ul>
+              <li><h6>No pending requests </h6></li>
+            </ul>
+          </div>
+        </li>
+
+        {% endif %}
+
+        {% for item in pendingRequestList %}
+        <li>
+          <div class="collapsible-header">
+            <ul>  
+              <li><h6>Status: Pending</h6></li>
+            </ul>
+          </div>
+          
+          <div class="collapsible-body">
+            <ul>
+              {% for key,value in item.items %}
+              <li><h6>{{ key }}  {{value}}</h6>  </li>
+              {% endfor %}
+            </ul>
+          </div>
+        </li>
+        {% endfor %}
+      </ul>
+      
+    </div>
+    
+  </div>
+  
+</div>
+
+
+<div class="box grey lighten-2" style="padding: 2%; height: 500px;" id="section2">
+  <div class="container row" >
+    <div class="col s12 l4 center-align">
+      <h4> Accepted Requests </h4>
+    </div>
+    <div class="col s12 l8">
+      <ul class="collapsible popout">
+        {% if acceptedLen == 0 %}
+        <li>
+          <div class="collapsible-header">
+            <ul>
+              <li><h6>No requests accepted </h6></li>
+            </ul>
+          </div>
+        </li>
+
+        {% endif %}
+
+        {% for item in acceptedList %}
+        <li>
+          <div class="collapsible-header">
+            <ul>
+              
+              <li><h5>{{ item.volunteerName }}</h5></li>
+              <form action="markDelivered/" method="POST">
+                {% csrf_token %}
+                
+                <button class="btn waves-effect waves-light grey lighten-1" type="submit" name="button" value="{{ item.requestId }}">Mark Delivered</button>
+              </form>
+            </ul>
+          </div>
+          
+          <div class="collapsible-body">
+            <ul>
+              {% for key,value in item.requestList.items %}
+              <li><h6>{{ key }}  {{value}}</h6>  </li>
+              {% endfor %}
+            </ul>
+          </div>
+        </li>
+        {% endfor %}
+      </ul>
+      
+    </div>
+    
+  </div>
+  
+</div>
+
+
+
+
+
+{% endblock %}
+
+
+{% block script %}
+<script>
+   document.addEventListener('DOMContentLoaded', function() {
+    var elems = document.querySelectorAll('.sidenav');
+    var instances = M.Sidenav.init(elems);
+  });
+
+  document.addEventListener('DOMContentLoaded', function() {
+    var elems = document.querySelectorAll('.collapsible');
+    var instances = M.Collapsible.init(elems);
+  });
+</script>
+
+{% endblock %}

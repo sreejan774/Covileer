@@ -1,0 +1,56 @@
+{% extends 'base.html' %}
+{% load static %}
+
+
+{% block content %}
+
+<style>	
+    .responsive {
+          width: 100%;
+          max-width: 470px;
+          height: auto;
+          margin-top: 3%;
+          border-radius: 5%;
+      }
+</style>
+
+   {% include 'accounts/navbar.html' %}
+
+  <div class="row">
+    <div class="col sm12 m6 center-align grey lighten-4">
+  		<img src="{% static 'images/home.jpeg' %}" class="responsive" alt="">
+  	</div>
+  	<div class="col sm12 m6">
+  		<div class="col sm12 m12">
+  			<div class="card large center-align z-depth-0 grey lighten-3">
+            <div class="card-content">
+            <span class="card-title"><h2>Genesis</h2></span>
+            <h3>Help us to deliver happiness</h3>
+            <div>
+                <h6>Helping people affected by Covid-19 to get their delivery of essential items.</h6>
+                <h6>Be a part of something good, be a volunteer.</h6>
+                <div style="padding: 5%;">
+                    <a href="{% url 'login' %}" class="waves-effect waves-light btn blue"><i class="material-icons left">login</i>Login</a>
+                    <a href="{% url 'signup' %}" class="waves-effect waves-light btn blue"><i class="material-icons left">logout</i>Signup</a>
+                </div>
+                
+            </div>
+            
+        </div>
+        <div class="card-action z-depth-0">
+          
+        </div>
+      </div>
+  		</div>
+  	</div>
+  	
+  </div>
+
+
+{% endblock %}
+
+
+{% block script %}
+
+
+{% endblock %}

@@ -1,0 +1,108 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<div class="navbar-fixed">
+	<nav>
+		<div class="nav-wrapper grey lighten-1">
+		  <a href="{% url 'uhome' %}" class="brand-logo">{{ name }}</a>
+		  <a href="#" data-target="mobile-demo" class="sidenav-trigger"><i class="material-icons">menu</i></a>
+		  <ul class="right hide-on-med-and-down">
+			<li><a href="{% url 'uhome' %}">Home</a></li>
+			<li><a href="{% url 'updateprofile' pk=request.user.pk %}">Update Profile</a></li>
+			<li><a href="{% url 'logout' %}">Logout</a></li>
+		  </ul>
+		</div>
+	</nav>
+	
+</div>
+
+<ul class="sidenav" id="mobile-demo">
+	<li><a href="{% url 'uhome' %}">Home</a></li>
+	<li><a href="{% url 'updateprofile' pk=request.user.pk %}">Update Profile</a></li>
+	<li><a href="{% url 'logout' %}">Logout</a></li>
+</ul>
+
+
+<div class="container white" style="margin-top: 2%; height: 750px; border-radius: 3%;">
+	<div class="container">
+		<form method="POST" class="col s12" id="mainform">
+			{% csrf_token %}
+			<div class="row">
+				<div class="input-field col s8">
+					 <input placeholder = "Item" type="text" name="item0">
+				</div>
+				<div class="input-field col s4">
+					 <input placeholder = "Quantity" type="text" name="quantity0">
+				</div>
+			</div>
+		</form>
+		<div class="row" >
+				
+				<button class="btn waves-effect waves-light grey darken-1" onclick="create();">Add Item
+				<i class="material-icons right">add</i>
+				</button>
+				
+				<button class="btn waves-effect waves-light grey darken-1" onclick="mysubmit()">Submit
+				<i class="material-icons right">send</i>
+				</button>
+		</div>
+	</div>
+    
+</div>
+
+{% endblock %}
+
+{% block script %}
+<script>
+    count = 1
+		function create(){
+			let outerdiv = document.createElement("div")
+			outerdiv.classList.add('row');
+			let innerdiv1 = document.createElement('div')
+			innerdiv1.classList.add("input-field")
+			innerdiv1.classList.add("col")
+			innerdiv1.classList.add("s8")
+			let input1 =  document.createElement("INPUT")
+			input1.setAttribute("name","item"+count)
+			input1.setAttribute("placeholder","Item")
+			innerdiv1.appendChild(input1)
+
+			outerdiv.appendChild(innerdiv1)
+
+
+			let innerdiv2 = document.createElement('div')
+			innerdiv2.classList.add("input-field")
+			innerdiv2.classList.add("innerdiv"+count)
+			innerdiv2.classList.add("col")
+			innerdiv2.classList.add("s4")
+			
+			outerdiv.appendChild(innerdiv2)
+			document.getElementById("mainform").appendChild(outerdiv)
+			createinner()
+			
+		}
+
+		function createinner(){
+			let input2 =  document.createElement("INPUT")
+			input2.setAttribute("name","quantity"+count)
+			input2.setAttribute("placeholder","Quantity")
+			div = document.getElementsByClassName("innerdiv"+count)[0]
+			div.appendChild(input2)
+			count = count+1			
+
+		}
+
+		function mysubmit(){
+			form = document.getElementById("mainform")
+			form.submit()
+
+		}
+
+		document.addEventListener('DOMContentLoaded', function() {
+    		var elems = document.querySelectorAll('.sidenav');
+    		var instances = M.Sidenav.init(elems);
+  		});
+</script>
+
+
+{% endblock %}

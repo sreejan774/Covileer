@@ -1,0 +1,33 @@
+{% extends 'base.html' %}
+
+{% block content %}
+
+{% include 'accounts/navbar.html' %}
+
+    <div class="container">
+        <div class="row white" style="margin-top: 2%; border-radius: 5%; padding: 2%;" >
+            <div class="container">
+                <form action="" method="POST" >
+                    {% csrf_token %}
+                    {% for field in signupForm %}
+                    <div class="row">
+                        <div class="input-field col s12">
+                            {{field}}
+                        </div>
+                    </div>
+                    {% endfor %}
+    
+                    <button type="submit" name="button1" value="volunteer" class="btn waves-effect waves-light">
+                        Volunteer
+                    </button>
+                    <button type="submit" name="button2" value="user" class="btn waves-effect waves-light">
+                        User
+                    </button>
+    
+                </form>
+            </div>
+            
+        </div>
+    </div>
+    
+{% endblock %}
