@@ -14,6 +14,11 @@ Install the requirements:
 ```bash
 pip install -r requirements.txt
 ```
+Collect Static files:
+
+```bash
+python manage.py collectstatic
+```
 Create the database:
 
 ```bash
